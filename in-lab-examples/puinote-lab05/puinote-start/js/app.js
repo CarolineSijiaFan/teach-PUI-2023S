@@ -18,6 +18,8 @@ function addNewNote(imageURL, title, body) {
 
 function createElement(notecard) {
     console.log('Creating an Element!')
+
+    
 }
 
 const notecardOne = addNewNote(
@@ -31,9 +33,36 @@ const notecardTwo = addNewNote(
     "The second note body"
 );
 
-addNewNote("test image", "test title", "test body");
 
 for (const notecard of notecardSet) {
     console.log(notecard);
     createElement(notecard);
   }
+
+function createElement(notecard) {
+    const template = document.querySelector('#notecard-template');
+    const clone = template.content.cloneNode(true);
+    notecard.element = clone.querySelector('.notecard');
+
+    const notecardListElement = document.querySelector('#notecard-list');
+    notecardListElement.prepend(notecard.element);
+    updateElement(notecard);
+}
+
+function updateElement(notecard) {
+    const noteImageElement = notecard.element.querySelector('.notecard-thumbnail');
+	const noteTitleElement = notecard.element.querySelector('.note-title');
+	const noteBodyElement = notecard.element.querySelector('.note-body');
+
+    noteImageElement.src = notecard.noteImageURL;
+    noteTitleElement.innerText = notecard.noteTitle;
+    noteBodyElement.innerText = notecard.noteBody;
+}
+
+const testNote = addNewNote('./assets/warhol-eagle.png', 'title three', 'body three');
+createElement(testNote);
+
+function deleteNote(notecard) {
+    notecard.element.remove();
+    notecardSet.delete(notecard);
+}
